@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Home Page";
+}
+<h2 class="embed-responsive-item">員工資料</h2>
+
+<div class="row">
+    <div class="col-md-3">請輸入電腦編號</div>
+    <div class="col-md-3"><input type="text" id="txtEmpNo" /></div>
+    <div class="col-md-3"><input type="button" id=" searchBtn" class="btn btn-info" value="查詢" onclick="GetEmployees('')" /></div>
+    <div class="col-md-3"><a href="@Url.Action("Add")" class="btn btn-success">新增</a></div>
+</div>
+<div id="EmployeesView"></div>
+
+
+<!--下面要@的原因是要求與layout 合併時 將script放在 cdn後面-->
+@section Scripts{
+    <script>
+        $(function () {
+            GetEmployees('');
+        });
+        function GetEmployees() {
+            //這邊是繫結到上方的 id txtEmpNo
+            let EmpNo = $('#txtEmpNo').val();
+            //data 裡面的EmpNo 必須與controller的method input相同
+            //當成功時 因為datatype是html 所以可以直接塞進去div裡面
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("_EmpData")',
+                data: { 'EmpNo': EmpNo },
+                datatype: 'HTML',
+                success: function (r) {
+                    $('#EmployeesView').html(r);
+                },
+                error: function (a, b, c) {
+                    console.log(a)
+                    console.log(b)
+                    console.log(c)
+                }
+            });
+        }
+        function Delete(EmpNo) {
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeletePost")',
+                 data: { 'EmpNo': EmpNo },
+                 success: function (r) {
+                     if (r.IsSuccess) {
+                         alert("修改成功");
+                         GetEmployees();
+                     }
+                     else {
+                         alert(r.Message);
+                     }
+                },
+                error: function (a, b, c) {
+                    console.log(a)
+                    console.log(b)
+                    console.log(c)
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,66 @@
+﻿@model Demo20230215.Models.EmployeeModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add</h2>
+
+<div class="row row-cols-2">
+    <div class="col">@Html.LabelFor(model => model.EmpNo)</div>
+    <div class="col">
+        <input type="text" id="txtEmpNo" value="" />
+    </div>
+
+
+    <div class="col">@Html.LabelFor(model => model.Name)</div>
+    <div class="col">
+        <input type="text" id="txtEmpName" value="" />
+    </div>
+
+    <div class="col">@Html.LabelFor(model => model.Ext)</div>
+    <div class="col">
+        <input type="text" id="txtEmpExt" value="" />
+    </div>
+
+</div>
+<input class="btn btn-primary" type="button" value="新增" onclick="AddEmp()" />
+@section Scripts{
+    <script>
+        function AddEmp() {
+            //todo 驗證格式
+            let ErrorMsg = "";
+            if (/\W/.test(document.getElementById("txtEmpNo").value)) {
+                ErrorMsg += "編號錯誤";
+            }
+            if (/\D/.test(document.getElementById("txtEmpExt").value)) {
+                ErrorMsg += "分機錯誤";
+            }
+            if (ErrorMsg != "") {
+                alert(ErrorMsg)
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AddPost")',
+                    data: { 'EmpNo': $('#txtEmpNo').val(), 'Name': $('#txtEmpName').val(), 'Ext': $('#txtEmpExt').val() },
+                    success: function(r){
+                        if (r.IsSuccess) {
+                            alert("修改成功");
+                        }
+                        else {
+                            alert(r.Message);
+                        }
+                    },
+                    error: function (a, b, c) {
+                        console.log(a);
+                        console.log(b);
+                        console.log(c);
+                    }
+                });
+            }
+            };
+    </script>
+
+
+}

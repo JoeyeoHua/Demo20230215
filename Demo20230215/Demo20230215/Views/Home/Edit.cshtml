@@ -1,0 +1,55 @@
+﻿@model Demo20230215.Models.EmployeeModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+@if (Model == null)
+{
+    <label class="label danger">請輸入正確的電腦編號</label>
+}
+else
+{
+
+    <div class="row row-cols-2">
+        <div class="col">@Html.LabelFor(model => model.EmpNo)</div>
+        <div class="col"><input type="text" id="txtEmpNo" value="@Model.EmpNo" readonly /></div>
+
+
+        <div class="col">@Html.LabelFor(model => model.Name)</div>
+        <div class="col"><input type="text" id="txtEmpName" value="@Model.Name" /></div>
+
+        <div class="col">@Html.LabelFor(model => model.Ext)</div>
+        <div class="col"><input type="text" id="txtEmpExt" value="@Model.Ext" /></div>
+
+    </div>
+    <input class="btn btn-primary" type="button" value="修改" onclick="EditEmp()" />
+    @section Scripts{
+        <script>
+            function EditEmp() {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("EditPost")',
+                    data: { 'EmpNo': $('#txtEmpNo').val(), 'Name': $('#txtEmpName').val(), 'Ext': $('#txtEmpExt').val() },
+                    success: function(r){
+                        if (r.IsSuccess) {
+                            alert("修改成功");
+
+                        }
+                        else {
+                            alert(r.Message);
+                        }
+                    },
+                    error: function (a, b, c) {
+                        console.log(a);
+                        console.log(b);
+                        console.log(c);
+                    }
+                });
+            };
+        </script>
+
+
+    }
+}

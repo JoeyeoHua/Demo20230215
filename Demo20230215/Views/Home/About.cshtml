@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "關於我們";
+}
+<h2>@ViewBag.Title.</h2>
+<h2>
+    @Session["se"]
+</h2>
+<hr />
+<h2>About</h2>
+
+<p>This demo illustrates usage of Autofac in an ASP.NET MVC environment. It also shows how to consume a WCF service.</p>
+
+<p>Check out the Global.asax for how to set up the application.</p>
+
+<p>Related docs:</p>
+<ul>
+    <li><a href="https://autofac.readthedocs.io/en/latest/integration/mvc.html">Autofac MVC Integration</a></li>
+    <li><a href="https://autofac.readthedocs.io/en/latest/integration/wcf.html">Autofac WCF Integration</a></li>
+</ul>
+<h2>
+
+    <!--@ViewBag.view-->
+
+</h2>
+<hr />
+<h2>
+    @ViewData["data"]
+
+</h2>
+<hr />
+<h2>
+    @TempData["temp"]
+
+</h2>
+<hr />
+<p>Use this area to provide additional information.</p>

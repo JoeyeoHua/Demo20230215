@@ -1,0 +1,56 @@
+﻿@model Demo20230215.Models.EmployeeModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+
+<div class="row row-cols-2">
+    <div class="col">@Html.LabelFor(model => model.EmpNo)</div>
+    <div class="col">
+        <input type="text" id="txtEmpNo" value="" />
+    </div>
+    <div class="col">@Html.LabelFor(model => model.Name)</div>
+    <div class="col">
+        <input type="text" id="txtName" value="" />
+    </div>
+    <div class="col">@Html.LabelFor(model => model.Ext)</div>
+    <div class="col">
+        <input type="text" id="txtExt" value="" />
+    </div>
+</div>
+<input class="btn btn-primary" type="button" value="新增" onclick="CreateEmp()" />
+
+@section Scripts{
+    <script>
+        function CreateEmp() {
+
+
+            let a = document.getElementById("txtEmpNo").value;
+            let b = document.getElementById("txtName").value;
+            let c = document.getElementById("txtExt").value;
+            
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("CreatePost")',
+                    data: { 'EmpNo': $('#txtEmpNo').val(), 'Name': $('#txtName').val(), 'Ext': $('#txtExt').val() },
+                    success: function (r) {
+                        if (r.IsSuccess) {
+                            alert('修改成功');
+                        }
+                        else  {
+                            alert(r.Msg);
+                        }
+                    },
+                    error: function (a, b, c) {
+                        console.log(a);
+                        console.log(b);
+                        console.log(c);
+                    }
+                });
+            };
+    </script>
+
+}
